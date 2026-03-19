@@ -119,9 +119,11 @@ UE4Game/Client/Client/Saved/Config/Android/
 
 ---
 
-## 📖 Code Explanations (with images)
+## 📖 Code Explanations
 
 https://alteriax.github.io/WuWa-Config-Info/
+
+https://youtu.be/MvgWzF41Pnc
 
 ---
 
