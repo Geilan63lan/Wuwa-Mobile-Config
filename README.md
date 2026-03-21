@@ -91,12 +91,12 @@ Maximum visuals for flagship-level devices.
 
 ## 🎮 Frame Generation
 
-All configs include **AFME (Kuro's native mobile frame interpolation)** configured in both `DeviceProfiles.ini` CVars and `Engine.ini`.
+All configs include **r.KuroFI.Enable** configured in `DeviceProfiles.ini` CVars
 
 > FSR Frame Generation is **not applicable on Android** — FSR on mobile is upscaling only.
 
-- **Snapdragon tiers:** AFME set in both DeviceProfiles + Engine.ini
-- **All Devices tiers:** AFME set in Engine.ini only (hardware support varies by device)
+- **On Vulkan devices:**  → works  
+- **On Open GL devices:** → shaders fail silently, no crash, just ignored
 
 ---
 
