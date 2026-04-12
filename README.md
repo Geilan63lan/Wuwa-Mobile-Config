@@ -169,3 +169,4 @@ https://ko-fi.com/geilan63
 ## 💻 Similar Repository for WuWa PC
 
 https://github.com/AlteriaX/WuWa-Configs.git
+[GameThread]LogInit: Display: Project file not found: ../../../Client/Client.uproject
