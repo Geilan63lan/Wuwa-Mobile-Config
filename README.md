@@ -1,124 +1,213 @@
-# **Wuwa Mobile Config**
+# Wuwa Mobile Config
 
-Performance and graphics configuration presets for Wuthering Waves (Mobile) designed to help optimize gameplay based on device capability. These configs aim to improve FPS stability, visual quality, or provide a balanced gaming experience depending on your hardware.
+Performance and graphics configuration presets for **Wuthering Waves Mobile (Version 3.4)** designed to help optimize gameplay based on device capability.
 
-Built on top of AlteriaX's command reference and adapted directly from Kuro's official **3.3 base engine files**[cite: 1].
+These configs aim to improve FPS stability, visual quality, or provide a balanced gaming experience depending on your hardware.
 
----
-
-## 🛠️ Patch 3.3 Optimization Summary
-
-The transition to **Version 3.3 (2nd Anniversary)** introduced significant engine-level overhauls to support massive storage reduction and the high-density anniversary map areas[cite: 1]. The following core coding updates have been applied across all presets:
-
-*   **New Kuro Streaming**: Forced `r.Streaming.UsingNewKuroStreaming=1` to utilize the overhauled 3.3 asset streaming architecture[cite: 1, 15, 17, 19, 21].
-*   **Low Memory Logic**: Implemented `m.LowMemoryDeviceThreshold=5800` to correctly trigger performance profiles on 6GB RAM devices[cite: 1, 14, 16, 18, 20].
-*   **Anniversary Map Stability**: Optimized foliage and geometry via `r.LandscapeLOD0ScreenSizeScale` and `r.Kuro.Foliage.EnableFoliageCulling` to handle new high-density environments[cite: 1, 15, 17, 19, 21].
-*   **Snapdragon Super Resolution**: Explicitly configured the `GSRTUModule` and `bEnableGSR=1` for Snapdragon tiers to improve clarity[cite: 1, 3, 7, 11].
-*   **Priority Level Overrides**: Moved critical CVars like `r.ScreenPercentage` into the `VeryHigh` device profile base to bypass 3.3's project-level setting locks[cite: 1, 14, 16, 18, 20].
-*   **Batching Improvements**: Activated `HISMBatcher` and `r.BBM.EnableBatcher` to improve rendering efficiency of world objects[cite: 1, 15, 17, 19, 21].
+Built using Kuro Game's official **3.4 engine configuration structure**, AlteriaX's command references, and extensive testing across multiple Android GPU architectures.
 
 ---
 
-## 📁 Overview
+# 🛠️ Patch 3.4 Optimization Summary
 
-This repository contains two main configuration folders:
+Version **3.4** continues Kuro's streaming and memory management improvements introduced in previous versions while expanding support for newer mobile hardware.
 
-### All Devices
-General presets designed to work across most supported Android devices (Mali, PowerVR, Xclipse, Tegra)[cite: 12].
+The following optimizations are applied throughout the config collection:
 
-### Snapdragon
-Presets specifically optimized for Qualcomm Snapdragon chipsets, including Adreno-specific optimizations and GSR upscaling support for better stability and performance consistency[cite: 4, 10].
+* **Updated Kuro Streaming System**
 
----
+  * Uses Kuro's latest streaming architecture where applicable.
+  * Optimized texture streaming pools based on device tier.
 
-## ⚙️ Performance Presets & Recommended Chipsets
+* **Improved Memory Management**
 
-These chipset suggestions are based on devices known to run Wuthering Waves properly[cite: 4, 10, 12, 20]. Actual performance may still vary depending on RAM, cooling, storage speed, and device optimization.
+  * Streaming and garbage collection values adjusted for better stability.
+  * Reduced texture pop-in on higher-end presets.
+  * Lower RAM pressure on low-end presets.
 
-| Tier | Snapdragon Target | All Devices Target | Scale Factor |
-|---|---|---|---|
-| **Low End** | Adreno 5xx / 6xx Low | Mali T/G5x, PowerVR GE8xxx | 1.0 |
-| **Balance Performance** | Adreno 7xx / 8xx | Mali G715/G78, Xclipse 9xx | 1.0 |
-| **Balance Visual** | Adreno 7xx / 8xx | Mali G715/G78, Xclipse 9xx | 1.5 (SD) / 1.0 (All) |
-| **High End** | Adreno 7xx / 8xx | Mali G925, Xclipse 9xx | 2.0 (SD) / 1.5 (All) |
+* **Device Tier Separation**
 
----
+  * Presets are categorized by actual hardware capability rather than a one-size-fits-all approach.
+  * Separate Snapdragon and All Devices profiles.
 
-### Low End
-Best for devices that struggle with default graphics or experience FPS drops[cite: 15].
+* **GPU-Specific Optimization**
 
-**Typical compatible chipsets:**
-- Snapdragon 660 / 665 / 670 / 710[cite: 3]
-- Snapdragon 720G[cite: 3]
-- MediaTek Helio G85 / G88 / G95
-- Dimensity 700 / 810[cite: 13]
+  * Snapdragon presets include Adreno-focused tuning.
+  * All Devices presets are designed for Mali, PowerVR, Xclipse, and other Android GPUs.
 
-**What's applied**: Minimum shadow resolution, no SSR, no AO, no fog, no foliage[cite: 15]. Thermal throttle protection enabled by default[cite: 15]. Aggressive `r.streaming.QualityExtraLODBiasSetting=975` is applied to save VRAM[cite: 1, 15].
+* **Streaming & World Loading Improvements**
 
-**Goal**: *Maximum smoothness over visuals.*
+  * Optimized World Partition loading ranges.
+  * Reduced stutters during traversal and fast movement.
 
 ---
 
-### Balanced Performance
-Focuses on stable FPS while maintaining acceptable graphics quality[cite: 7, 17].
+# 📁 Overview
 
-**Typical compatible chipsets:**
-- Snapdragon 730 / 732G / 765G / 778G[cite: 6]
-- Snapdragon 845 / 855[cite: 6]
-- Dimensity 900 / 920 / 1080[cite: 17]
+This repository contains two main configuration folders.
 
-**What's applied**: Fog and light shafts at reduced cost[cite: 7, 17]. Volumetric cloud/fog off, contact shadows off[cite: 17]. GSR on Snapdragon, FSR-only on All Devices[cite: 7, 17].
+## All Devices
 
-**Goal**: *Smooth gameplay with decent visuals.*
+General presets designed to work across most Android devices including:
 
----
+* Mali
+* PowerVR
+* Xclipse
+* Tegra
+* Adreno
 
-### Balanced Visual
-Better graphics while maintaining stable performance[cite: 9, 19].
+## Snapdragon
 
-**Typical compatible chipsets:**
-- Snapdragon 870 / 888[cite: 8]
-- Snapdragon 7+ Gen 2[cite: 8]
-- Dimensity 1200 / 1300 / 8020[cite: 19]
+Presets specifically optimized for Qualcomm Snapdragon chipsets.
 
-**What's applied**: Full atmosphere stack, full bloom convolution, full GTAO, full shadow quality[cite: 9, 19]. 1.5x supersampling on Snapdragon[cite: 8]. TAA + FSR fully configured[cite: 9, 19].
-
-**Goal**: *Improved visuals without sacrificing stability.*
+These presets include additional Adreno-focused optimizations and tuning designed for Snapdragon devices.
 
 ---
 
-### High End
-Maximum visuals for flagship-level devices[cite: 11, 21].
+# ⚙️ Performance Presets & Recommended Chipsets
 
-**Typical compatible chipsets:**
-- Snapdragon 8 Gen 1 / 8+ Gen 1[cite: 10]
-- Snapdragon 8 Gen 2 / 8 Gen 3[cite: 10]
-- Dimensity 9000 / 9200 / 9300[cite: 21]
-
-**What's applied**: Everything in Balanced Visual plus 2.0x supersampling and extended world streaming range (`wp.Runtime.KuroRuntimeStreamingRangeOverallScale=3.0`)[cite: 11, 21].
-
-**Goal**: *Highest visual quality with stable high FPS.*
+| Tier                    | Snapdragon Target         | All Devices Target         | Scale Factor         |
+| ----------------------- | ------------------------- | -------------------------- | -------------------- |
+| **Low End**             | Adreno 5xx / 6xx Low      | Mali T/G5x, PowerVR GE8xxx | 1.0                  |
+| **Balance Performance** | Adreno 6xx / 7xx Midrange | Mali G57/G68/G78           | 1.0                  |
+| **Balance Visual**      | Adreno 730 / 740          | Mali G715/G78, Xclipse 9xx | 1.5 (SD) / 1.0 (All) |
+| **High End**            | Adreno 750 / 830          | Mali G925, Xclipse 9xx     | 2.0 (SD) / 1.5 (All) |
 
 ---
 
-## 🎮 Frame Generation
+# Low End
 
-All configs include **r.KuroFI.Enable** configured in `DeviceProfiles.ini` CVars[cite: 1, 14, 20].
+Best for devices that struggle with default graphics or experience FPS drops.
 
-> FSR Frame Generation is **not applicable on Android** — FSR on mobile is upscaling only.
+### Typical Compatible Chipsets
 
-- **On Vulkan devices**: → works[cite: 1]  
-- **On OpenGL devices**: → shaders fail silently, no crash, just ignored[cite: 1]
+* Snapdragon 660
+* Snapdragon 665
+* Snapdragon 680
+* Helio G85
+* Helio G88
+* Helio G99
+* Dimensity 700
+* Dimensity 810
+
+### What's Applied
+
+* Reduced texture quality
+* Reduced shadow quality
+* Reduced view distance
+* Reduced foliage density
+* Reduced visual effects
+* Optimized streaming pools
+
+### Goal
+
+*Maximum smoothness over visuals.*
 
 ---
 
-## 📌 Installation
+# Balanced Performance
+
+Focuses on stable FPS while maintaining acceptable graphics quality.
+
+### Typical Compatible Chipsets
+
+* Snapdragon 720G
+* Snapdragon 730G
+* Snapdragon 778G
+* Snapdragon 845
+* Snapdragon 855
+* Dimensity 900
+* Dimensity 920
+* Dimensity 1080
+
+### What's Applied
+
+* Balanced texture quality
+* Medium shadows
+* Moderate foliage density
+* Improved streaming quality
+* Optimized world loading
+
+### Goal
+
+*Smooth gameplay with decent visuals.*
+
+---
+
+# Balanced Visual
+
+Improved graphics while maintaining stable performance.
+
+### Typical Compatible Chipsets
+
+* Snapdragon 870
+* Snapdragon 888
+* Snapdragon 7+ Gen 2
+* Dimensity 1200
+* Dimensity 1300
+* Dimensity 8020
+
+### What's Applied
+
+* Higher shadow quality
+* Increased texture quality
+* Improved post-processing
+* Better foliage rendering
+* Increased view distance
+
+### Goal
+
+*Improved visuals without sacrificing stability.*
+
+---
+
+# High End
+
+Maximum visuals for flagship-level devices.
+
+### Typical Compatible Chipsets
+
+* Snapdragon 8 Gen 1
+* Snapdragon 8+ Gen 1
+* Snapdragon 8 Gen 2
+* Snapdragon 8 Gen 3
+* Snapdragon 8 Elite
+* Dimensity 9000
+* Dimensity 9200
+* Dimensity 9300
+* Dimensity 9400
+
+### What's Applied
+
+* Maximum texture quality
+* Extended view distance
+* Increased shadow quality
+* Enhanced effects
+* Increased world streaming range
+
+### Goal
+
+*Highest visual quality with stable high FPS.*
+
+---
+
+# 🎮 Frame Generation
+
+Some presets include KuroFI-related settings where supported by the game.
+
+> Actual frame generation availability depends on the game version, device, graphics API, and Kuro's implementation.
+
+Not all Android devices will benefit from these settings.
+
+---
+
+# 📌 Installation
 
 1. Choose either the **All Devices** or **Snapdragon** folder.
 2. Select the preset suitable for your device.
-3. **Copy the config files into this directory**:
+3. Copy the configuration files into:
 
-```
+```text
 Internal Storage/Android/data/
 com.kurogame.wutheringwaves.global/files/
 UE4Game/Client/Client/Saved/Config/Android/
@@ -127,57 +216,66 @@ UE4Game/Client/Client/Saved/Config/Android/
 4. Overwrite existing files when prompted.
 5. Launch the game normally.
 
-> ⚠️ On newer Android versions you may need **Shizuku** or a similar tool to access the data folder.
+> On newer Android versions you may need Shizuku, ZArchiver, MT Manager, or another Android data folder access solution.
 
 ---
 
-## 📖 Code Explanations
+# 📖 Command Reference
 
-[https://alteriax.github.io/WuWa-Config-Info/](https://alteriax.github.io/WuWa-Config-Info/)
-
----
-
-## 📖 Youtube Tutorial
-
-[https://youtu.be/MvgWzF41Pnc](https://youtu.be/MvgWzF41Pnc)
+https://alteriax.github.io/WuWa-Config-Info/
 
 ---
 
-## ☕ Support
+# 📖 Video Tutorial
 
-If you find these configs helpful, consider supporting via Ko-Fi!
-
-[https://ko-fi.com/geilan63](https://ko-fi.com/geilan63)
+https://youtu.be/MvgWzF41Pnc
 
 ---
 
-## ⚠️ Important Warning
+# ☕ Support
+
+If you find these configs helpful, consider supporting the project:
+
+https://ko-fi.com/geilan63
+
+---
+
+# ⚠️ Important Warning
 
 > [!WARNING]
-> These configs are provided as-is with **minimal** guarantees.
-> Choosing the **wrong preset** may cause crashes, instability, overheating, or performance issues.
-> **I am NOT responsible** for any problems caused by **incorrect usage**.
-> Always back up your original config files before replacing anything.
+>
+> These configs are provided as-is.
+>
+> Choosing the wrong preset may cause:
+>
+> * Reduced performance
+> * Overheating
+> * Increased battery drain
+> * Visual issues
+> * Game instability
+>
+> Always back up your original configuration files before replacing anything.
 
 ---
 
-## 📌 Notes
+# 📌 Notes
 
-- All configs are based on Kuro's **official 3.3 base engine files**, not generated from scratch[cite: 1].
-- Snapdragon configs include Adreno-specific optimizations — these are excluded from All Devices configs.
-- GSR is Snapdragon-exclusive and is disabled in all All Devices configs[cite: 1].
-- Always verify your CVars in `Client.log` after applying[cite: 1].
-
----
-
-## 🙏 Credits
-
-- **AlteriaX** — command reference and config philosophy.
-- **Arglax** — Mobile WuWa Config reference and GPU crash notes.
-- Kuro Game — base 3.3 engine files[cite: 1].
+* Configs are designed specifically for Wuthering Waves 3.4.
+* Snapdragon presets include Adreno-specific tuning.
+* All Devices presets are designed to work across multiple Android GPU architectures.
+* Future game updates may change or remove supported commands.
+* Always verify functionality after major game updates.
 
 ---
 
-## 💻 Similar Repository for WuWa PC
+# 🙏 Credits
 
-[https://github.com/AlteriaX/WuWa-Configs.git](https://github.com/AlteriaX/WuWa-Configs.git)
+* **AlteriaX** — Command reference, documentation, and research.
+* **Arglax** — Mobile configuration references and testing methodology.
+* **Kuro Game** — Wuthering Waves.
+
+---
+
+# 💻 Similar Repository for WuWa PC
+
+https://github.com/AlteriaX/WuWa-Configs
