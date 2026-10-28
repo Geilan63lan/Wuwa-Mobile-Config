@@ -1,6 +1,6 @@
-# WuWa Mobile Config — Personal 3.6 Build
+# WuWa Mobile Config — Personal 3.7 Build
 
-Performance and graphics configuration presets for **Wuthering Waves Mobile (Version 3.6)**, compiled and cleaned up across eight tiers: four **All Devices** presets and four **Snapdragon**-specific presets.
+Performance and graphics configuration presets for **Wuthering Waves Mobile (Version 3.7)**, compiled and cleaned up across eight tiers: four **All Devices** presets and four **Snapdragon**-specific presets.
 
 This is a personally maintained compilation built by pulling current files from Arglax's [Mobile-WuWa-Config](https://github.com/Arglax/Mobile-WuWa-Config) repo (All Devices side, restructured for 3.6) and a Snapdragon-specific source in the same style as AlteriaX/Geilan63lan's Adreno-focused configs, then auditing every file for bugs, dead CVars, and version consistency. It is **not** an official redistribution of either project — see Credits below.
 
@@ -97,6 +97,32 @@ Both are marked in-file. Treat these two specifically as best-effort drafts — 
 
 ### 7. Balanced Visual (Snapdragon) manually tuned toward visuals
 Per request, nudged texture quality, post-process quality, mip bias, ambient occlusion quality, foliage/grass density, and mesh LOD distance upward, while deliberately leaving shadow quality, effects quality, and anti-aliasing untouched — keeping it inside "balanced" rather than drifting into High-End territory. This is a manual adjustment, not sourced from any repo.
+
+### 8. 3.7 settings retune (generator-based)
+All eight tiers were re-derived with Arglax's [DeviceProfiles.ini and Engine.ini generators](https://arglax.github.io/Mobile-WuWa-Config/tools/devprof-generator.html), using one representative device per tier, and the chosen values were tracked in a per-tier settings sheet.
+
+| Folder | Tier | Device selected | GPU reference | Engine.ini mode |
+|---|---|---|---|---|
+| Snapdragon | High End | OnePlus 12 (`Android_Adreno_750`) | Adreno 750 (SD 8 Gen 3) | High Quality |
+| Snapdragon | Balanced Visual | Poco F5 | Adreno 735 (SD 7s Gen 3) | Balanced |
+| Snapdragon | Balanced Performance | Poco X5 Pro 5G | Adreno 660 (SD 888) | Performance |
+| Snapdragon | Low End | Oppo A96 4G | Adreno 660 (SD 888) | Ultra Performance |
+| All Devices | High End | Vivo X200 Pro | Mali G715 MC11 (Dimensity 9300) | High Quality |
+| All Devices | Balanced Visual | Poco X7 Pro | Mali G615 MC6 | Balanced |
+| All Devices | Balanced Performance | Redmi Note 12 Pro 5G | Generic Android | Performance |
+| All Devices | Low End | Redmi 13C | Generic Android | Ultra Performance |
+
+- **Scalability groups (`sg.*`):** one ladder across both folders. View Distance / Anti-Aliasing / Post Process / Shading are 3, 3, 2, 1 from High End down to Low End. Shadow is 3, 2, 2, 1. Foliage is 3, 2, 2, 1. Texture is 4, 3, 2, 1. **Effects is capped at 2 in every tier** (values above 2 crash the game) and is 1 on Low End.
+- **Shadow consistency:** Engine.ini shadow quality and cascade count are set to match the `sg.ShadowQuality` value in `DeviceProfiles.ini`, since Engine.ini overrides DeviceProfiles on the same CVar.
+- **Vulkan:** forced on for Snapdragon High End and Balanced Visual. Left at the default on the other tiers, since OpenGL ES is the safer default on budget chips.
+- **Frame Generation:** KuroFI is on for Snapdragon High End, "test first" on Snapdragon Balanced Visual and Balanced Performance, and off on both Low End tiers. On All Devices it is off by default because of known KuroFI init failures on some MediaTek chipsets. FSR3 Frame Interpolation is off in every tier, since it conflicts with KuroFI.
+- **Upscaling:** SGSR2 is off on all All Devices tiers (not optimal on Mali) and off on Snapdragon High End (pointless at native resolution).
+- **Always off in every tier:** depth of field, lens flares, motion blur, contact shadows, HDR swapchain, GPU crash debug logging, robust buffer access, and the Vulkan validation layer.
+- **Thermal limit removal** (`r.DontLimitOnBattery`) is off by default. It is treated as an optional user toggle on High End only, because of the extra heat and battery drain.
+- **Device Score spoofing** is left off; the 3.6 `dp.Override` structure already assigns the profile directly.
+- **Numeric values left as-is:** `r.StaticMeshLODDistanceScale`, skeletal LOD bias and the streaming range scale were kept from the existing tested files rather than re-guessed.
+
+**Not verified:** the device-to-chip matching and the generator's `DeviceProfile` names (only `Android_Adreno_750` was confirmed on screen), the starting quick presets (Eye Candy / Balanced / Smooth 60), the resolution-scale steps on Balanced Performance and Low End, and the experimental toggles (shader pre-compilation hint, Async Compute, Big.LITTLE affinity). Confirm the active profile in `Client.log` after installing.
 
 ---
 
